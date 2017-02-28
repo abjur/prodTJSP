@@ -18,4 +18,6 @@ Imports: magrittr,
     janitor,
     tibble,
     jsonlite,
-    purrr
+    purrr,
+    abjutils,
+    pdftools
