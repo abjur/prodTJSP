@@ -33,9 +33,14 @@ prod_download(d_list, path = 'data-raw/pdf')
 
 ### Parse pdf files
 
-Not implemented yet.
+```r
+# suppose your pdf files are in data-raw/pdf folder
+arqs <- dir('data-raw/pdf', full.names = TRUE)
+d_prod <- prod_parse_uni(arqs)
+d_prod
+```
 
-## TODO
+## TODO 
 
-[ ] Parse pdf files
+[x] Parse pdf files
 [ ] Better docs
