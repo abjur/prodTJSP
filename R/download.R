@@ -155,3 +155,50 @@ prod_download <- function(.data, path = 'data-raw/pdf', overwrite = FALSE) {
                 .$id_court, path, overwrite)) %>%
     dplyr::ungroup()
 }
+
+prod_download_list <- function(l) {
+  prod_um(l$year, l$month, l$id_comarca, l$id_court, l$path, l$ow)
+}
+
+build_cmd <- function(l, path, overwrite) {
+  sprintf("R -e 'prodTJSP:::prod_um(%s, %s, %s, %s, \"%s\", %s)'",
+          l$year, l$month, l$id_comarca, l$id_court,
+          normalizePath(path), overwrite)
+}
+
+#' Downloads productivity pdf files, async
+#'
+#' Downloads TJSP productivity pdf files based on database returned by \code{prod_list}.
+#'
+#' @param .data database of id's returned by \code{prod_list}
+#' @param max_nproc maximum number of processes. Default 10 processes.
+#' @param sleep_secs seconds to sleep between process checks. Default 1 second.
+#' @param path folder where the files will be saved.
+#' @param overwrite overwrite?
+#'
+#' @return nothing
+#' @export
+prod_download_async <- function(.data, max_nproc = 10, sleep_secs = 1,
+                                path = 'data-raw/pdf', overwrite = FALSE) {
+  if (missing(.data)) .data <- prod_list()
+  f <- dplyr::failwith(tibble::tibble(result = 'erro'), prod_um)
+  dir.create(path, recursive = TRUE, showWarnings = FALSE)
+  i <- 1
+  cmd <- build_cmd(.data[1,], path, overwrite)
+  ps <- lapply(seq_len(max_nproc), function(x) processx::process$new(''))
+  ticks <- dplyr::progress_estimated(nrow(.data))
+  while (i <= nrow(.data)) {
+    for (j in seq_len(max_nproc)) {
+      if (!ps[[j]]$is_alive()) {
+        ps[[j]]$kill()
+        ps[[j]] <- processx::process$new(commandline = cmd)
+        i <- i + 1
+        print(ticks$tick())
+        cmd <- build_cmd(.data[i,], path, overwrite)
+        if (i > nrow(.data)) break
+      }
+    }
+    Sys.sleep(sleep_secs)
+  }
+  invisible(NULL)
+}
