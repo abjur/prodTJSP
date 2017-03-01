@@ -4,10 +4,17 @@
 \alias{prod_parse_uni}
 \title{Court productivity data}
 \usage{
-prod_parse_uni(arqs)
+prod_parse_uni(arqs, save = FALSE, path = "data-raw/raw-rds",
+  overwrite = FALSE)
 }
 \arguments{
 \item{arqs}{character vector contaning the paths of the pdf files.}
+
+\item{save}{save intermediate files?}
+
+\item{path}{folder where the files will be saved.}
+
+\item{overwrite}{overwrite?}
 }
 \description{
 Parses pdf file to get Court productivity data. Ignores information about the

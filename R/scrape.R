@@ -21,7 +21,11 @@ prod_scrape_courts <- function(h) {
 
 # parsers de pdf --------------------------------------------------------------
 
-prod_parse_uni_one <- function(arq) {
+prod_parse_uni_one <- function(arq, save, path, ow) {
+  if (save) {
+    arq_save <- sprintf('%s/%s.rds', path, tools::file_path_sans_ext(basename(arq)))
+    if (file.exists(arq_save) & !ow) return(tibble::tibble(result = 'exists'))
+  }
   txt <- pdftools::pdf_text(arq)
   re_mag <- 'Dados +do\\(s\\) +Magistrados *\\(s\\)'
   re_unidade <- 'Dados da Unidade'
@@ -73,6 +77,7 @@ prod_parse_uni_one <- function(arq) {
     stringr::str_trim()
   tab <- tibble::tibble(id = ids, txt = txts,
                         num = nums, result = 'OK')
+  if (save) saveRDS(tab, arq_save)
   tab
 }
 
@@ -100,10 +105,17 @@ arq_check <- function(arq) {
 #' judge.
 #'
 #' @param arqs character vector contaning the paths of the pdf files.
+#' @param save save intermediate files?
+#' @param path folder where the files will be saved.
+#' @param overwrite overwrite?
 #'
 #' @export
-prod_parse_uni <- function(arqs) {
-  abjutils::dvec(prod_parse_uni_one, arqs) %>%
+prod_parse_uni <- function(arqs, save = FALSE,
+                           path = 'data-raw/raw-rds',
+                           overwrite = FALSE) {
+  if (save) dir.create(path, recursive = TRUE, showWarnings = FALSE)
+  abjutils::dvec(prod_parse_uni_one, arqs,
+                 save = save, path = path, ow = overwrite) %>%
     dplyr::rename(arq = item)
 }
 
