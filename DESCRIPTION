@@ -20,4 +20,5 @@ Imports: magrittr,
     jsonlite,
     purrr,
     abjutils,
-    pdftools
+    pdftools,
+    processx
