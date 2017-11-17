@@ -185,7 +185,7 @@ prod_download_async <- function(.data, max_nproc = 10, sleep_secs = 1,
   dir.create(path, recursive = TRUE, showWarnings = FALSE)
   i <- 1
   cmd <- build_cmd(.data[1,], path, overwrite)
-  ps <- lapply(seq_len(max_nproc), function(x) processx::process$new(''))
+  ps <- lapply(seq_len(max_nproc), function(x) processx::process$new('ls'))
   ticks <- dplyr::progress_estimated(nrow(.data))
   while (i <= nrow(.data)) {
     for (j in seq_len(max_nproc)) {
