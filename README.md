@@ -40,7 +40,28 @@ d_prod <- prod_parse_uni(arqs)
 d_prod
 ```
 
+## Citation
+
+To cite `prodTJSP`, write `citation("prodTJSP")`:
+
+
+```
+To cite package ‘prodTJSP’ in publications use:
+
+  Julio Trecenti (2017). prodTJSP: Downloads TJSP productivity data. R package
+  version 0.1.9000.
+
+A BibTeX entry for LaTeX users is
+
+  @Manual{,
+    title = {prodTJSP: Download TJSP Productivity Data},
+    author = {Julio Trecenti},
+    year = {2017},
+    note = {R package version 0.1.9000},
+  }
+```
+
 ## TODO 
 
-[x] Parse pdf files
-[ ] Better docs
+- [ ] Parse PDF files for judges
+- [ ] Better docs

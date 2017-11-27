@@ -1,8 +1,13 @@
 Package: prodTJSP
-Title: Downloads TJSP productivity data
-Version: 0.0.0.9000
-Authors@R: person("Julio", "Trecenti", email = "jtrecenti@abj.org.br", role = c("aut", "cre"))
-Description: Downloads TJSP productivity pdf files and parse them to tabular data.
+Title: Download TJSP Productivity Data
+Version: 0.1.9000
+Date: 2017-10-21
+Authors@R: c(
+    person("Julio", "Trecenti", email = "jtrecenti@abj.org.br", role = c("aut", "cre")),
+    person("ABJ", role = c("cph", "fnd"))
+  )
+Description: Downloads TJSP productivity pdf files and parse them to tabular 
+    data.
 Depends: R (>= 3.3.2)
 License: MIT + file LICENSE
 Encoding: UTF-8
