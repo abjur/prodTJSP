@@ -1,6 +1,4 @@
-[![Travis-CI Build Status](https://travis-ci.org/abjur/prodTJSP.svg?branch=master)](https://travis-ci.org/abjur/prodTJSP)
-
-# prodTJSP
+# prodTJSP <img src='man/figures/logo.png' align="right" height="138" />
 
 Scraper TJSP productivity data
 
